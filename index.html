@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<!-- saved from url=(0088)https://c5df3a2d-71ff-429c-b550-de36d68c7796-%2D1748725200-%2D3426b054.app.yourware.app/ -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CegouCraftBot - Бот для мониторинга Minecraft</title>
+    <link href="css2" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5865F2;
+            --secondary: #2C2F33;
+            --background: #0E1015;
+            --card-bg: #1A1C20;
+            --text: #FFFFFF;
+            --text-secondary: #B9BBBE;
+            --accent: #00ADB5;
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            background: rgba(14, 16, 21, 0.9);
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-container {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+        }
+
+        .logo h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: var(--text);
+        }
+
+        .cta {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--text);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+
+        .cta:hover {
+            transform: translateY(-2px);
+        }
+
+        .cta img {
+            width: 16px;
+            height: 16px;
+        }
+
+        .hero {
+            padding: 140px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--text), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--text);
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--text);
+            border-color: transparent;
+        }
+
+        .api-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 32px;
+            margin: 32px 0;
+            border: 1px solid var(--border);
+        }
+
+        .api-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+
+        .api-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .api-info div {
+            font-size: 14px;
+        }
+
+        .api-info strong {
+            color: var(--accent);
+        }
+
+        .endpoint {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .endpoint h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .endpoint p {
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .params {
+            margin-top: 12px;
+        }
+
+        .params h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .param {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .param code {
+            color: var(--accent);
+            font-family: 'Courier New', monospace;
+        }
+
+        .errors {
+            margin-top: 16px;
+        }
+
+        .error {
+            background: rgba(237, 66, 69, 0.1);
+            border: 1px solid rgba(237, 66, 69, 0.3);
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 4px;
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
+        }
+
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .api-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="https://c5df3a2d-71ff-429c-b550-de36d68c7796--1748725200--3426b054.app.yourware.app/#" class="logo">
+                <img src="cegou.png" alt="CegouCraftBot">
+                <h1>CegouCraftBot</h1>
+            </a>
+            
+            <nav class="nav">
+                <a href="https://c5df3a2d-71ff-429c-b550-de36d68c7796--1748725200--3426b054.app.yourware.app/#commands">Команды</a>
+                <a href="https://c5df3a2d-71ff-429c-b550-de36d68c7796--1748725200--3426b054.app.yourware.app/#api">API</a>
+                <a href="https://c5df3a2d-71ff-429c-b550-de36d68c7796--1748725200--3426b054.app.yourware.app/#support">Поддержка</a>
+            </nav>
+            
+            <a href="https://dsc.gg/cegou" class="cta">
+                <img src="./CegouCraftBot - Бот для мониторинга Minecraft_files/discord-white-icon.png" alt="Discord">
+                Присоединиться
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Бот для мониторинга CegouCraft</h1>
+                <p>Получайте статистику игроков, мониторьте сервер и используйте API.</p>
+            </div>
+        </section>
+
+        <section id="commands" class="section">
+            <div class="container">
+                <h2 class="section-title">Команды бота</h2>
+                
+                <div class="tabs">
+                    <div class="tab active" data-tab="basic">⚡ Основные</div>
+                    <div class="tab" data-tab="tools">⚙️ Инструменты</div>
+                    <div class="tab" data-tab="games">🎮 Игры</div>
+                </div>
+                
+                <div class="grid" id="basic-commands">
+                    <div class="card">
+                        <h3>👥 .list</h3>
+                        <p>Показать онлайн игроков</p>
+                    </div>
+                    <div class="card">
+                        <h3>📈 .stat</h3>
+                        <p>Статистика игрока</p>
+                    </div>
+                    <div class="card">
+                        <h3>🏆 .top</h3>
+                        <p>Топ-25 игроков</p>
+                    </div>
+                    <div class="card">
+                        <h3>ℹ️ .info</h3>
+                        <p>Информация о сервере</p>
+                    </div>
+                </div>
+                
+                <div class="grid" id="tools-commands" style="display: none;">
+                    <div class="card">
+                        <h3>👁️ .tabwatcher</h3>
+                        <p>Мониторинг игроков</p>
+                    </div>
+                    <div class="card">
+                        <h3>✅ .check</h3>
+                        <p>Проверка привилегий</p>
+                    </div>
+                    <div class="card">
+                        <h3>🎨 .skins</h3>
+                        <p>Скачать скины</p>
+                    </div>
+                    <div class="card">
+                        <h3>🔗 .uuid</h3>
+                        <p>Узнать UUID игрока</p>
+                    </div>
+                </div>
+                
+                <div class="grid" id="games-commands" style="display: none;">
+                    <div class="card">
+                        <h3>❌ .ttt</h3>
+                        <p>Начать крестики-нолики</p>
+                    </div>
+                    <div class="card">
+                        <h3>⏹️ .stop</h3>
+                        <p>Остановить игру</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="api" class="section">
+            <div class="container">
+                <h2 class="section-title">Документация API</h2>
+                
+                <div class="api-section">
+                    <h3 class="api-title">Информация об API</h3>
+                    
+                    <div class="api-info">
+                        <div><strong>Версия:</strong> 1.1</div>
+                        <div><strong>Хост:</strong> http://91.108.244.180:9000/</div>
+                        <div><strong>Релиз:</strong> 25.02.2025</div>
+                        <div><strong>Обновление:</strong> 28.02.2025</div>
+                    </div>
+
+                    <h4 style="color: var(--accent); margin: 24px 0 16px;">Эндпоинты:</h4>
+
+                    <div class="endpoint">
+                        <h4>GET /players/list</h4>
+                        <p>Получить список игроков с серверов</p>
+                        
+                        <div class="params">
+                            <h5>Параметры запроса:</h5>
+                            <div class="param">
+                                <code>server</code> (string) [обязательный] - Сервер: <code>survival</code>, <code>anarchy</code>, <code>all</code>
+                            </div>
+                        </div>
+                        
+                        <div class="params">
+                            <h5>Заголовки:</h5>
+                            <div class="param">
+                                <code>userId</code> (header) [обязательный] - Идентификатор пользователя
+                            </div>
+                            <div class="param">
+                                <code>Access-Token</code> (header) [обязательный] - Токен доступа
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="endpoint">
+                        <h4>GET /stats</h4>
+                        <p>Получить статистику игрока по никнейму</p>
+                        
+                        <div class="params">
+                            <h5>Параметры запроса:</h5>
+                            <div class="param">
+                                <code>nickname</code> (string) [обязательный] - Никнейм игрока
+                            </div>
+                        </div>
+                        
+                        <div class="params">
+                            <h5>Заголовки:</h5>
+                            <div class="param">
+                                <code>userId</code> (header) [обязательный] - Идентификатор пользователя
+                            </div>
+                            <div class="param">
+                                <code>Access-Token</code> (header) [обязательный] - Токен доступа
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="errors">
+                        <h5 style="color: var(--accent); margin-bottom: 12px;">Коды ошибок:</h5>
+                        <div class="error">1001: "Отсутствуют данные авторизации"</div>
+                        <div class="error">1002: "Неверные данные авторизации"</div>
+                        <div class="error">1003: "Ошибка обработки данных"</div>
+                        <div class="error">1004: "Внутренняя ошибка сервера"</div>
+                        <div class="error">1005: "Превышен лимит запросов"</div>
+                        <div class="error">1006: "Неизвестный сервер"</div>
+                        <div class="error">1007: "Ошибка загрузки данных viplist/trashlist"</div>
+                        <div class="error">1008: "Никнейм не может быть пустым"</div>
+                        <div class="error">1009: "Игрок скрыт (.hide команда)"</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="support">
+        <div class="container">
+            <p>© CegouCraftBot v3.0 | 2021-2025 | by inkognito338<br>
+            Мы никак не связаны с CegouCraft/Mojang/Microsoft</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const tabName = tab.getAttribute('data-tab');
+                document.querySelectorAll('[id$="-commands"]').forEach(grid => {
+                    grid.style.display = 'none';
+                });
+                document.getElementById(tabName + '-commands').style.display = 'grid';
+            });
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+</body></html>
