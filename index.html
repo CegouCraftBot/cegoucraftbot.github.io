@@ -1,361 +1,117 @@
 <!DOCTYPE html>
-<meta name="google-site-verification" content="lp0VcRwDlXGGi-n5BfVjf8zTajCHt6frPpTP_JpZOfk" />
+<html lang="ru">
 
-<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="CegouCraftBot — мощный бот для мониторинга CegouCraft. Отслеживайте статистику игроков, следите за чатом серверов и используйте интеграции через API.">
+    <meta name="keywords" content="Minecraft, бот, мониторинг, Discord, статистика, API, сервер">
+    <meta name="google-site-verification" content="lp0VcRwDlXGGi-n5BfVjf8zTajCHt6frPpTP_JpZOfk">
     <title>CegouCraftBot - Бот для мониторинга Minecraft</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="cegou.png" type="image/png">
+
+    <!-- Google Fonts -->
     <link href="css2" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <script src="youware-lib.1747145198.js" id="yourware-lib"></script>
     <style>
-        :root {
-            --primary: #5865F2;
-            --secondary: #2C2F33;
-            --background: #0E1015;
-            --card-bg: #1A1C20;
-            --text: #FFFFFF;
-            --text-secondary: #B9BBBE;
-            --accent: #00ADB5;
-            --border: rgba(255, 255, 255, 0.1);
-            --shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+        .animate-in {
+            animation: slideInUp 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--background);
-            color: var(--text);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            backdrop-filter: blur(10px);
-            background: rgba(14, 16, 21, 0.9);
-            z-index: 100;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .header-container {
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-
-        .logo img {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-        }
-
-        .logo h1 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .nav {
-            display: flex;
-            gap: 24px;
-        }
-
-        .nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav a:hover {
-            color: var(--text);
-        }
-
-        .cta {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: var(--text);
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.2s;
-        }
-
-        .cta:hover {
-            transform: translateY(-2px);
-        }
-
-        .cta img {
-            width: 16px;
-            height: 16px;
-        }
-
-        .hero {
-            padding: 140px 0 80px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, var(--text), var(--text-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: 18px;
-            color: var(--text-secondary);
-            margin-bottom: 32px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: var(--text);
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: transform 0.2s;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .section {
-            padding: 60px 0;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 24px;
-            border: 1px solid var(--border);
-            transition: transform 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-        }
-
-        .card h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .card p {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
-        }
-
-        .tab {
-            padding: 8px 16px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .tab.active {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: var(--text);
-            border-color: transparent;
-        }
-
-        .api-section {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 32px;
-            margin: 32px 0;
-            border: 1px solid var(--border);
-        }
-
-        .api-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--accent);
-        }
-
-        .api-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
-            padding: 16px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-        }
-
-        .api-info div {
-            font-size: 14px;
-        }
-
-        .api-info strong {
-            color: var(--accent);
-        }
-
+        .feature-card,
+        .card,
         .endpoint {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--accent);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
 
-        .endpoint h4 {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 8px;
-            font-family: 'Courier New', monospace;
+        .feature-card.animate-in,
+        .card.animate-in,
+        .endpoint.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+    <style>
+        .animate-in {
+            animation: slideInUp 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
         }
 
-        .endpoint p {
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-        }
-
-        .params {
-            margin-top: 12px;
-        }
-
-        .params h5 {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 8px;
-        }
-
-        .param {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 8px 12px;
-            border-radius: 4px;
-            margin-bottom: 6px;
-            font-size: 13px;
-        }
-
-        .param code {
-            color: var(--accent);
-            font-family: 'Courier New', monospace;
-        }
-
-        .errors {
-            margin-top: 16px;
-        }
-
-        .error {
-            background: rgba(237, 66, 69, 0.1);
-            border: 1px solid rgba(237, 66, 69, 0.3);
-            padding: 8px 12px;
-            border-radius: 4px;
-            margin-bottom: 4px;
-            font-size: 13px;
-            font-family: 'Courier New', monospace;
-        }
-
-        footer {
-            padding: 40px 0;
-            text-align: center;
-            border-top: 1px solid var(--border);
-        }
-
-        footer p {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        @media (max-width: 768px) {
-            .nav {
-                display: none;
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .api-info {
-                grid-template-columns: 1fr;
-            }
-            
-            .tabs {
-                flex-direction: column;
-            }
+        }
+
+        .feature-card,
+        .card,
+        .endpoint {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .feature-card.animate-in,
+        .card.animate-in,
+        .endpoint.animate-in {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
+
 <body>
     <header>
         <div class="container header-container">
-            <a href="https://cegoucraftbot.github.io/#" class="logo">
+            <a href="https://fda66d7f-8451-467e-bc86-cd88477ee82d--1748790000--784a137c.preview.yourware.so/#"
+                class="logo">
                 <img src="cegou.png" alt="CegouCraftBot">
                 <h1>CegouCraftBot</h1>
             </a>
-            
+
             <nav class="nav">
-                <a href="https://cegoucraftbot.github.io/#commands">Команды</a>
-                <a href="https://cegoucraftbot.github.io/#api">API</a>
-                <a href="https://cegoucraftbot.github.io/#support">Поддержка</a>
+                <a
+                    href="https://fda66d7f-8451-467e-bc86-cd88477ee82d--1748790000--784a137c.preview.yourware.so/#features">Возможности</a>
+                <a
+                    href="https://fda66d7f-8451-467e-bc86-cd88477ee82d--1748790000--784a137c.preview.yourware.so/#commands">Команды</a>
+                <a
+                    href="https://fda66d7f-8451-467e-bc86-cd88477ee82d--1748790000--784a137c.preview.yourware.so/#api">API</a>
+                <a
+                    href="https://fda66d7f-8451-467e-bc86-cd88477ee82d--1748790000--784a137c.preview.yourware.so/#faq">FAQ</a>
+                <a
+                    href="https://fda66d7f-8451-467e-bc86-cd88477ee82d--1748790000--784a137c.preview.yourware.so/#support">Поддержка</a>
             </nav>
-            
-            <a href="https://dsc.gg/cegou" class="cta">
+
+            <button id="mobile-menu-btn" class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <a href="https://dsc.gg/cegou" class="cta" target="_blank">
                 <img src="discord-white-icon.png" alt="Discord">
                 Присоединиться
             </a>
@@ -363,69 +119,166 @@
     </header>
 
     <main>
-        <section class="hero">
+        <section class="hero" style="transform: translateY(0px);">
             <div class="container">
                 <h1>Бот для мониторинга CegouCraft</h1>
-                <p>Получайте статистику игроков, мониторьте сервер и используйте API.</p>
+                <p>Мощный инструмент для отслеживания статистики игроков, мониторинга серверов и автоматизации
+                    процессов.</p>
+
+                <a href="https://fda66d7f-8451-467e-bc86-cd88477ee82d--1748790000--784a137c.preview.yourware.so/#features"
+                    class="btn">
+                    <i class="fas fa-rocket"></i>
+                    Начать использовать
+                </a>
+
+                <div class="stats-container">
+                    <div class="stat-card animated">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Мониторинг</div>
+                    </div>
+                    <div class="stat-card animated">
+                        <div class="stat-value">35000+</div>
+                        <div class="stat-label">Игроков в базе данных</div>
+                    </div>
+                    <div class="stat-card animated" style="animation-delay: 0.9s;">
+                        <div class="stat-value">50+</div>
+                        <div class="stat-label">Верифицированных в боте игроков</div>
+                    </div>
+                    <div class="stat-card animated">
+                        <div class="stat-value">99.9%</div>
+                        <div class="stat-label">Аптайм</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section">
+            <div class="container">
+                <h2 class="section-title">Ключевые возможности</h2>
+
+                <div class="features-grid">
+                    <div class="feature-card animate-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="feature-title">Статистика игроков</h3>
+                        <p class="feature-description">Подробная статистика каждого игрока, включая привилегии, контакты
+                            Discord.</p>
+                    </div>
+
+                    <div class="feature-card animate-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3 class="feature-title">Мониторинг серверов</h3>
+                        <p class="feature-description">Непрерывный мониторинг чата Выживания #1, Анархии.</p>
+                    </div>
+
+                    <div class="feature-card animate-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="feature-title">API</h3>
+                        <p class="feature-description">Интегрируйте данные бота с вашими сервисами и приложениями. API
+                            предоставляет частичный доступ к информации о серверах и игроках.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section id="commands" class="section">
             <div class="container">
                 <h2 class="section-title">Команды бота</h2>
-                
+
                 <div class="tabs">
-                    <div class="tab active" data-tab="basic">⚡ Основные</div>
-                    <div class="tab" data-tab="tools">⚙️ Инструменты</div>
-                    <div class="tab" data-tab="games">🎮 Игры</div>
+                    <div class="tab active" data-tab="basic"><i class="fas fa-bolt"></i> Основные</div>
+                    <div class="tab" data-tab="tools"><i class="fas fa-tools"></i> Инструменты</div>
+                    <div class="tab" data-tab="games"><i class="fas fa-gamepad"></i> Игры</div>
                 </div>
-                
+
                 <div class="grid" id="basic-commands">
-                    <div class="card">
-                        <h3>👥 .list</h3>
-                        <p>Показать онлайн игроков</p>
+                    <div class="card animate-in" style="animation-delay: 0s;">
+                        <h3><i class="fas fa-users"></i> .list</h3>
+                        <p>Показать онлайн игроков сервера</p>
                     </div>
-                    <div class="card">
-                        <h3>📈 .stat</h3>
-                        <p>Статистика игрока</p>
+                    <div class="card animate-in" style="animation-delay: 0.1s;">
+                        <h3><i class="fas fa-chart-bar"></i> .stat</h3>
+                        <p>Показать статистику игрока. Отображает количество заходов на сервера CegouCraft, привилегии,
+                            префиксы, лайки/дизлайки.</p>
                     </div>
-                    <div class="card">
-                        <h3>🏆 .top</h3>
-                        <p>Топ-25 игроков</p>
+                    <div class="card animate-in" style="animation-delay: 0.2s;">
+                        <h3><i class="fas fa-trophy"></i> .top</h3>
+                        <p>Топ-15 игроков по чат-игре, лайкам и дизлайкам</p>
                     </div>
-                    <div class="card">
-                        <h3>ℹ️ .info</h3>
-                        <p>Информация о сервере</p>
+                    <div class="card animate-in" style="animation-delay: 0.3s;">
+                        <h3><i class="fas fa-info-circle"></i> .info</h3>
+                        <p>Информация о игровом проекте CegouCraft - MOTD, текущий онлайн, ядро, информация о цифровом
+                            айпи адресе.</p>
+                    </div>
+                    <div class="card animate-in" style="animation-delay: 0.4s;">
+                        <h3><i class="fas fa-server"></i> .server</h3>
+                        <p>Информация о Discord-сервере</p>
                     </div>
                 </div>
-                
+
                 <div class="grid" id="tools-commands" style="display: none;">
-                    <div class="card">
-                        <h3>👁️ .tabwatcher</h3>
-                        <p>Мониторинг игроков</p>
+                    <div class="card" style="animation-delay: 0.5s;">
+                        <h3><i class="fas fa-eye"></i> .tabwatcher</h3>
+                        <p>Мониторинг игроков через TabWatcher. Предназначен чтобы оповещать в Discord при заходе
+                            определенного игрока на сервер.<br>
+                            <code>.tabwatcher help</code> - помощь<br>
+                            <code>.tabwatcher add &lt;nickname&gt;</code> - добавить никнейм<br>
+                            <code>.tabwatcher remove &lt;nickname&gt;</code> - удалить никнейм<br>
+                            <code>.tabwatcher list</code> - показать список никнеймов<br>
+                            <code>.tabwatcher enable</code> - включить функцию<br>
+                            <code>.tabwatcher disable</code> - выключить функцию
+                        </p>
                     </div>
-                    <div class="card">
-                        <h3>✅ .check</h3>
-                        <p>Проверка привилегий</p>
+                    <div class="card" style="animation-delay: 0.6s;">
+                        <h3><i class="fas fa-check-circle"></i> .check</h3>
+                        <p>Проверка привилегий (бд сайта CegouCraft.ru)</p>
                     </div>
-                    <div class="card">
-                        <h3>🎨 .skins</h3>
-                        <p>Скачать скины</p>
+                    <div class="card" style="animation-delay: 0.7s;">
+                        <h3><i class="fas fa-paint-brush"></i> .skins</h3>
+                        <p>Скачать скины всех онлайн игроков</p>
                     </div>
-                    <div class="card">
-                        <h3>🔗 .uuid</h3>
+                    <div class="card" style="animation-delay: 0.8s;">
+                        <h3><i class="fas fa-link"></i> .uuid</h3>
                         <p>Узнать UUID игрока</p>
                     </div>
-                </div>
-                
-                <div class="grid" id="games-commands" style="display: none;">
-                    <div class="card">
-                        <h3>❌ .ttt</h3>
-                        <p>Начать крестики-нолики</p>
+                    <div class="card" style="animation-delay: 0.9s;">
+                        <h3><i class="fas fa-search"></i> .find</h3>
+                        <p>Найти похожие никнеймы (Выживание #1)</p>
                     </div>
-                    <div class="card">
-                        <h3>⏹️ .stop</h3>
-                        <p>Остановить игру</p>
+                    <div class="card" style="animation-delay: 1s;">
+                        <h3><i class="fas fa-eye-slash"></i> .hide</h3>
+                        <p>Скрыть информацию о себе<br>
+                            Ваши данные будут скрыты из выдачи в течение 3-20 дней после подачи заявки. Если информация
+                            не подтвердится, данные не будут скрыты.<br><br>
+                            Скрытые никнеймы не будут выданы в командах:<br>
+                            <code>.stat</code><br>
+                            <code>.skins</code><br>
+                            <code>.find</code>
+                        </p>
+                    </div>
+                    <div class="card" style="animation-delay: 1.1s;">
+                        <h3><i class="fas fa-code"></i> .api</h3>
+                        <p>API для разработчиков</p>
+                    </div>
+                    <div class="card" style="animation-delay: 1.2s;">
+                        <h3><i class="fas fa-headset"></i> .support</h3>
+                        <p>Контакты техподдержки CegouCraft</p>
+                    </div>
+                </div>
+
+                <div class="grid" id="games-commands" style="display: none;">
+                    <div class="card" style="animation-delay: 1.3s;">
+                        <h3><i class="fas fa-times"></i> .ttt</h3>
+                        <p>Начать игру в крестики-нолики</p>
+                    </div>
+                    <div class="card" style="animation-delay: 1.4s;">
+                        <h3><i class="fas fa-stop"></i> .stop</h3>
+                        <p>Остановить текущую игру в крестики-нолики</p>
                     </div>
                 </div>
             </div>
@@ -434,32 +287,65 @@
         <section id="api" class="section">
             <div class="container">
                 <h2 class="section-title">Документация API</h2>
-                
+
                 <div class="api-section">
-                    <h3 class="api-title">Информация об API</h3>
-                    
+                    <h3 class="api-title">
+                        <div class="api-icon-container">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        Информация об API
+                    </h3>
+
+                    <p class="api-description">
+                        API CegouCraftBot предоставляет разработчикам доступ ко всем данным и функциям бота. Используйте
+                        API для создания собственных инструментов мониторинга, интеграции с вашим сайтом или мобильным
+                        приложением.
+                    </p>
+
                     <div class="api-info">
-                        <div><strong>Версия:</strong> 1.1</div>
-                        <div><strong>Хост:</strong> http://91.108.244.180:9000/</div>
-                        <div><strong>Релиз:</strong> 25.02.2025</div>
-                        <div><strong>Обновление:</strong> 28.02.2025</div>
+                        <div>
+                            <strong>Хост:</strong>
+                            <span>http://91.108.244.180:9000/</span>
+                        </div>
+                        <div>
+                            <strong>Версия:</strong>
+                            <span>1.1</span>
+                        </div>
+                        <div>
+                            <strong>Релиз:</strong>
+                            <span>25.02.2025</span>
+                        </div>
+                        <div>
+                            <strong>Обновление:</strong>
+                            <span>28.02.2025</span>
+                        </div>
                     </div>
 
-                    <h4 style="color: var(--accent); margin: 24px 0 16px;">Эндпоинты:</h4>
+                    <div class="endpoints-title">
+                        <div class="endpoints-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <h4>Эндпоинты:</h4>
+                    </div>
 
-                    <div class="endpoint">
-                        <h4>GET /players/list</h4>
-                        <p>Получить список игроков с серверов</p>
-                        
+                    <div class="endpoint animate-in">
+                        <h4>
+                            <i class="fas fa-terminal"></i>
+                            /players/list
+                            <span>GET</span>
+                        </h4>
+                        <p>Получить полный список игроков с Выживания #1 или Анархии</p>
+
                         <div class="params">
-                            <h5>Параметры запроса:</h5>
+                            <h5><i class="fas fa-question-circle"></i> Параметры запроса:</h5>
                             <div class="param">
-                                <code>server</code> (string) [обязательный] - Сервер: <code>survival</code>, <code>anarchy</code>, <code>all</code>
+                                <code>server</code> (string) [обязательный] - Сервер: <code>survival</code>,
+                                <code>anarchy</code>, <code>all</code>
                             </div>
                         </div>
-                        
+
                         <div class="params">
-                            <h5>Заголовки:</h5>
+                            <h5><i class="fas fa-key"></i> Заголовки:</h5>
                             <div class="param">
                                 <code>userId</code> (header) [обязательный] - Идентификатор пользователя
                             </div>
@@ -467,21 +353,27 @@
                                 <code>Access-Token</code> (header) [обязательный] - Токен доступа
                             </div>
                         </div>
+
+
                     </div>
 
-                    <div class="endpoint">
-                        <h4>GET /stats</h4>
-                        <p>Получить статистику игрока по никнейму</p>
-                        
+                    <div class="endpoint animate-in">
+                        <h4>
+                            <i class="fas fa-terminal"></i>
+                            /stats
+                            <span>GET</span>
+                        </h4>
+                        <p>Получить статистику игрока</p>
+
                         <div class="params">
-                            <h5>Параметры запроса:</h5>
+                            <h5><i class="fas fa-question-circle"></i> Параметры запроса:</h5>
                             <div class="param">
                                 <code>nickname</code> (string) [обязательный] - Никнейм игрока
                             </div>
                         </div>
-                        
+
                         <div class="params">
-                            <h5>Заголовки:</h5>
+                            <h5><i class="fas fa-key"></i> Заголовки:</h5>
                             <div class="param">
                                 <code>userId</code> (header) [обязательный] - Идентификатор пользователя
                             </div>
@@ -489,57 +381,125 @@
                                 <code>Access-Token</code> (header) [обязательный] - Токен доступа
                             </div>
                         </div>
+
+
                     </div>
 
                     <div class="errors">
-                        <h5 style="color: var(--accent); margin-bottom: 12px;">Коды ошибок:</h5>
-                        <div class="error">1001: "Отсутствуют данные авторизации"</div>
-                        <div class="error">1002: "Неверные данные авторизации"</div>
-                        <div class="error">1003: "Ошибка обработки данных"</div>
-                        <div class="error">1004: "Внутренняя ошибка сервера"</div>
-                        <div class="error">1005: "Превышен лимит запросов"</div>
-                        <div class="error">1006: "Неизвестный сервер"</div>
-                        <div class="error">1007: "Ошибка загрузки данных viplist/trashlist"</div>
-                        <div class="error">1008: "Никнейм не может быть пустым"</div>
-                        <div class="error">1009: "Игрок скрыт (.hide команда)"</div>
+                        <div class="errors-title">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h5>Коды ошибок:</h5>
+                        </div>
+                        <div class="error"><i class="fas fa-times-circle"></i> 1001: "Отсутствуют данные авторизации"
+                        </div>
+                        <div class="error"><i class="fas fa-times-circle"></i> 1002: "Неверные данные авторизации"</div>
+                        <div class="error"><i class="fas fa-times-circle"></i> 1003: "Ошибка обработки данных"</div>
+                        <div class="error"><i class="fas fa-times-circle"></i> 1004: "Внутренняя ошибка сервера"</div>
+                        <div class="error"><i class="fas fa-times-circle"></i> 1005: "Превышен лимит запросов"</div>
+                        <div class="error"><i class="fas fa-times-circle"></i> 1006: "Неизвестный сервер"</div>
+                        <div class="error"><i class="fas fa-times-circle"></i> 1007: "Ошибка загрузки данных
+                            viplist/trashlist"</div>
+                        <div class="error"><i class="fas fa-times-circle"></i> 1008: "Никнейм не может быть пустым"
+                        </div>
+                        <div class="error"><i class="fas fa-times-circle"></i> 1009: "Игрок скрыт (.hide команда)"</div>
+                    </div>
+
+                    <div class="api-rules">
+                        <h4><i class="fas fa-exclamation-circle"></i> Правила API:</h4>
+                        <ul>
+                            <li>1. Запрещено спамить в API.</li>
+                            <li>2. Запрещено передавать токен API.</li>
+                            <li>3. Запрещено парсить информацию игроков через API (статистику и т.д).</li>
+                        </ul>
+                        <p class="rules-warning">Наказание за нарушение: бан в боте/API (на усмотрение администрации)
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
+
+        <section id="faq" class="section">
+            <div class="container">
+                <h2 class="section-title">Часто задаваемые вопросы</h2>
+
+                <div class="faq-section">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Как добавить бота на мой сервер?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Бот не предназначен для добавления на сторонние Discord-сервера. Он доступен только на
+                                официальном Discord-сервере проекта CegouCraftBot: <a href="https://dsc.gg/cegou"
+                                    target="_blank">https://dsc.gg/cegou</a></p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Как получить API ключ для интеграции?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Для получения API ключа используйте команду <code>.api</code> в личных сообщениях
+                                Discord-бота.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Сколько стоит использование бота?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Бот полностью бесплатный. Все функции и возможности доступны всем пользователям без
+                                каких-либо ограничений.</p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Доступен ли исходный код бота?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Исходный код CegouCraftBot не предоставляется - это закрытый проект.
+                                Но если вам нужен частичный доступ к возможностям бота, можете воспользоваться нашим API
+                                и
+                                подключить его к своему проекту.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer id="support"
+            style="background-color: #1A1C20; padding: 60px 0 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); text-align: center;">
+            <div class="container">
+                <p style="color: #B9BBBE; font-size: 14px; max-width: 600px; margin: 0 auto; line-height: 1.6;">
+                    © CegouCraftBot | 2021–2025 | by <span style="color: #00ADB5;">inkognito338</span><br>
+                    Мы никак не связаны с
+                    <a href="https://cegoucraft.ru" target="_blank" rel="noopener noreferrer"
+                        title="Перейти на сайт CegouCraft" style="color: #5865F2; text-decoration: none;">
+                        CegouCraft</a>,
+                    <a href="https://www.minecraft.net" target="_blank" rel="noopener noreferrer"
+                        title="Перейти на сайт Mojang Studios" style="color: #5865F2; text-decoration: none;">
+                        Mojang Studios</a>,
+                    <a href="https://www.microsoft.com" target="_blank" rel="noopener noreferrer"
+                        title="Перейти на сайт Microsoft" style="color: #5865F2; text-decoration: none;">
+                        Microsoft</a>.
+                </p>
+            </div>
+        </footer>
+
+
+
+        <!-- Custom JS -->
+        <script src="script.js"></script>
+
     </main>
+</body>
 
-    <footer id="support">
-        <div class="container">
-            <p>© CegouCraftBot v3.0 | 2021-2025 | by inkognito338<br>
-            Мы никак не связаны с CegouCraft/Mojang/Microsoft</p>
-        </div>
-    </footer>
-
-    <script>
-        // Tab switching
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                
-                const tabName = tab.getAttribute('data-tab');
-                document.querySelectorAll('[id$="-commands"]').forEach(grid => {
-                    grid.style.display = 'none';
-                });
-                document.getElementById(tabName + '-commands').style.display = 'grid';
-            });
-        });
-
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-    </script>
-
-</body></html>
+</html>
